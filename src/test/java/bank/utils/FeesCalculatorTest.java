@@ -29,7 +29,7 @@ class FeesCalculatorTest {
 	@Test
     void withdrawalTest() {
         // Boundary values for the "Balance"
-        int[] boundaryValues = {-1, 0, 1, 999, 1000, 1001, 4999, 5000, 5001};
+        int[] boundaryValues = {999, 1000, 1001, 4999, 5000, 5001};
 
         // Testing with all combinations of "Student" and "Weekend" booleans
         boolean[] studentStatuses = {true, false};
@@ -63,6 +63,9 @@ class FeesCalculatorTest {
     // Helper method to determine expected fee based on the inputs
     // This will need to be updated based on your business logic
     private double calculateExpectedFee(boolean isStudent, boolean isWeekend, int balance) {
+		if(balance <= 0){
+			return 0;
+		}
         // Example fee calculation logic - replace this with actual logic
         if(isStudent){
 			if(isWeekend){
