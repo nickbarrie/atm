@@ -1,7 +1,6 @@
 package bank.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,6 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
+
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import static org.junit.jupiter.api.Assertions.*;
 
 // Use of Parameterized helps in this case, since multiple runs of same test are required
 class FeesCalculatorTest {
@@ -90,4 +94,13 @@ class FeesCalculatorTest {
 		}
 		return -1;
     }
+
+	@ParameterizedTest
+	@CsvFileSource(resources = "/TransferFeesTestCases.csv", numLinesToSkip = 1) // Skip header if necessary
+	void testMyMethodFromCsvFile(boolean student, double amount, double fromAccountBalance, double toAccountBalance, double expectedResult){
+		FeesCalculator calculator = new FeesCalculator();
+		double result = calculator.calculateTransferFee(amount, fromAccountBalance, toAccountBalance, student);
+		assertEquals(expectedResult, result);
+	}
+
 }
