@@ -2,9 +2,14 @@ package bank.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 // Use of Parameterized helps in this case, since multiple runs of same test are required
 class FeesCalculatorTest {
@@ -17,6 +22,10 @@ class FeesCalculatorTest {
 	// Balance between 1000 - 5000
 	// Balance between 5000+
 
+	// Boundary values for withdrawal fee test
+	int[] boundaryValues = {999, 1000, 1001, 4999, 5000, 5001};
+	boolean[] studentStatuses = {true, false};
+	boolean[] weekendStatuses = {true, false};
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -26,47 +35,39 @@ class FeesCalculatorTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-    void withdrawalTest() {
-        // Boundary values for the "Balance"
-        int[] boundaryValues = {999, 1000, 1001, 4999, 5000, 5001};
+   // Dynamic test factory method
+    @TestFactory
+    Collection<DynamicTest> withdrawalTest() {
+        Collection<DynamicTest> dynamicTests = new ArrayList<>();
 
-        // Testing with all combinations of "Student" and "Weekend" booleans
-        boolean[] studentStatuses = {true, false};
-        boolean[] weekendStatuses = {true, false};
-		
-
-        // Iterate through all combinations
         for (boolean isStudent : studentStatuses) {
             for (boolean isWeekend : weekendStatuses) {
                 for (int balance : boundaryValues) {
-					int dayOfWeek = 0;
 
-					if(isWeekend) {
-						dayOfWeek = 1;// Sunday
-					}
-					else{
-						dayOfWeek = 2;// Monday
-	
-					}
+                    String testName = "Student: " + isStudent + ", Weekend: " + isWeekend + ", Balance: " + balance;
 
-                    double expectedFee = calculateExpectedFee(isStudent, isWeekend, balance);
-                    
-                    // Perform the assertion
-                    assertEquals(expectedFee, calculator.calculateWithdrawalFee(200,balance , isStudent, dayOfWeek), 
-                        "Failed for Student: " + isStudent + ", Weekend: " + isWeekend + ", Balance: " + balance);
+                    DynamicTest dynamicTest = DynamicTest.dynamicTest(testName, () -> {
+                        int dayOfWeek = isWeekend ? 1 : 2; // Sunday or Monday
+
+                        double expectedFee = calculateExpectedFee(isStudent, isWeekend, balance);
+
+                        assertEquals(expectedFee, calculator.calculateWithdrawalFee(200, balance, isStudent, dayOfWeek), 
+                            "Failed for Student: " + isStudent + ", Weekend: " + isWeekend + ", Balance: " + balance);
+                    });
+
+                    // Add dynamic test case to collection
+                    dynamicTests.add(dynamicTest);
                 }
             }
         }
+
+        return dynamicTests;
     }
 
-    // Helper method to determine expected fee based on the inputs
-    // This will need to be updated based on your business logic
     private double calculateExpectedFee(boolean isStudent, boolean isWeekend, int balance) {
 		if(balance <= 0){
 			return 0;
 		}
-        // Example fee calculation logic - replace this with actual logic
         if(isStudent){
 			if(isWeekend){
 				return 0.1;
@@ -80,7 +81,7 @@ class FeesCalculatorTest {
 			if(balance < 1000){
 				return 0.3;
 			}
-			else if(balance > 1000 && balance < 5000){
+			else if(balance >= 1000 && balance <= 5000){
 				return 0.1;
 			}
 			else if(balance > 5000){
