@@ -38,19 +38,6 @@ import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Plan:
- * 
- * Do invalid PIN test to see if it throws InvalidPinFormatException.
- * 
- * 
- * Make an excel sheet to do the boundary tests for Invalid amount
- * 
- * 
- * 
- * 
- */
-
 
 public class AtmSessionTest {
 
