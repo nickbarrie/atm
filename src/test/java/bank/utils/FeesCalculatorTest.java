@@ -31,11 +31,11 @@ class FeesCalculatorTest {
 	@ParameterizedTest
 	@CsvSource({
 			"25, 250, true, 0.0",
-			"200, 1000, false, 20",
-			"300, 3000, true, 150.0",
-			"-10, 7000, false, -1",
-			"25, 20000, true, 12.5",
-			"200, -10, false, 20"
+			"200, 1000, false, 0.2",
+			"300, 3000, true, 1.5",
+			"-10, 7000, false, -0.01",
+			"25, 20000, true, 0.125",
+			"200, -10, false, 0.2"
 	})
 	void depositTest(double amount, double accountBalance, boolean student, double expected) {
 		assertEquals(expected, calculator.calculateDepositInterest(amount, accountBalance, student));
