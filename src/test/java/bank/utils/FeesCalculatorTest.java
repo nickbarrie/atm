@@ -14,6 +14,7 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.provider.CsvSource;
 
 // Use of Parameterized helps in this case, since multiple runs of same test are required
 class FeesCalculatorTest {
