@@ -42,7 +42,7 @@ class FeesCalculatorTest {
 
    // Dynamic test factory method
     @TestFactory
-    Collection<DynamicTest> withdrawalTest() {
+    Collection<DynamicTest> withdrawalTestAssignmentOne() {
         Collection<DynamicTest> dynamicTests = new ArrayList<>();
 
         for (boolean isStudent : studentStatuses) {
@@ -95,6 +95,20 @@ class FeesCalculatorTest {
 		}
 		return -1;
     }
+
+	// Withdrawal fee test for assignment 2
+	@ParameterizedTest
+	@CsvSource({//6 is Friday and 7 is Saturday
+			"1, 999, true, 7, 0.0",
+			"1, 999, true, 6, 0.001",
+			"1, 999, false, 7, 0.002",
+			"1, 1000, false, 7, 0.001",
+			"1, 10001, false, 7, 0.0"
+	})
+	void withdrawalTestAssignmentTwo(double amount, double accountBalance, boolean student, int dayOfWeek, double expected) {
+		assertEquals(expected, calculator.calculateWithdrawalFee(amount, accountBalance, student, dayOfWeek));
+	}
+
 
 	@ParameterizedTest
 	@CsvFileSource(resources = "/TransferFeesTestCases.csv", numLinesToSkip = 1) // Skip header if necessary

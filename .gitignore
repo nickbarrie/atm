@@ -25,3 +25,6 @@ Thumbs.db
 
 # Ignore target directories
 target/
+
+#Ignore word change files
+~$*
