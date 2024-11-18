@@ -130,4 +130,30 @@ class FeesCalculatorTest {
 	void depositTest(double amount, double accountBalance, boolean student, double expected) {
 		assertEquals(expected, calculator.calculateDepositInterest(amount, accountBalance, student));
 	}
+	
+	// Deposit interest percentage test for assignment 2. Contains the expected amount with correct interest.
+	@ParameterizedTest
+	@CsvSource({ 
+	    // DU-Path 1
+	    "200.0, 1500.0, true, 2.0",
+	    // DU-Path 2
+	    "200.0, 500.0, true, 1.0",
+	    // DU-Path 3
+	    "50.0, 6000.0, true, 0.25",
+	    // DU-Path 4
+	    "50.0, 4000.0, true, 0.1",
+	    // DU-Path 5
+	    "1000.0, 6000.0, false, 10.0",
+	    // DU-Path 6
+	    "1000.0, 4000.0, false, 5.0",
+	    // DU-Path 7
+	    "400.0, 15000.0, false, 2.0",
+	    // DU-Path 8
+	    "400.0, 9000.0, false, 0.0"
+	})
+	public void calculateDepositInterestTest(double amount, double accountBalance, boolean student, double expectedInterest) {
+	    double result = calculator.calculateDepositInterest(amount, accountBalance, student);
+	    assertEquals(expectedInterest, result);
+	}
+
 }
