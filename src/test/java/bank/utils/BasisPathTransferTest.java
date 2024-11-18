@@ -19,7 +19,6 @@ class BasisPathTransferTest {
 	@CsvFileSource(resources = "/BasisPathsTransferFeesTestCases.csv", numLinesToSkip = 1) // Skip header if necessary
 	void testMyMethodFromCsvFile(boolean student, double amount, double fromAccountBalance, double toAccountBalance, double expectedResult){
 		FeesCalculator calculator = new FeesCalculator();
-		expectedResult = expectedResult / 100;
 		expectedResult = amount * expectedResult;
 		double result = calculator.calculateTransferFee(amount, fromAccountBalance, toAccountBalance, student);
 		assertEquals(expectedResult, result);
