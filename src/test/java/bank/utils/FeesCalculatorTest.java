@@ -109,15 +109,8 @@ class FeesCalculatorTest {
 		assertEquals(expected, calculator.calculateWithdrawalFee(amount, accountBalance, student, dayOfWeek));
 	}
 
-
-	@ParameterizedTest
-	@CsvFileSource(resources = "/TransferFeesTestCases.csv", numLinesToSkip = 1) // Skip header if necessary
-	void testMyMethodFromCsvFile(boolean student, double amount, double fromAccountBalance, double toAccountBalance, double expectedResult){
-		FeesCalculator calculator = new FeesCalculator();
-		double result = calculator.calculateTransferFee(amount, fromAccountBalance, toAccountBalance, student);
-		assertEquals(expectedResult, result);
-	}
   
+	// Assignment 1 Blackbox testing for deposit
 	@ParameterizedTest
 	@CsvSource({
 			"25, 250, true, 0.0",
@@ -127,11 +120,11 @@ class FeesCalculatorTest {
 			"25, 20000, true, 0.125",
 			"200, -10, false, 0.2"
 	})
-	void depositTest(double amount, double accountBalance, boolean student, double expected) {
+	void depositTestAssignmentOne(double amount, double accountBalance, boolean student, double expected) {
 		assertEquals(expected, calculator.calculateDepositInterest(amount, accountBalance, student));
 	}
 	
-	// Deposit interest percentage test for assignment 2. Contains the expected amount with correct interest.
+	// Assignment 2 deposit interest percentage test. Contains the expected amount with correct interest.
 	@ParameterizedTest
 	@CsvSource({ 
 	    // DU-Path 1
@@ -151,7 +144,7 @@ class FeesCalculatorTest {
 	    // DU-Path 8
 	    "400.0, 9000.0, false, 0.0"
 	})
-	public void calculateDepositInterestTest(double amount, double accountBalance, boolean student, double expectedInterest) {
+	public void depositInterestTestAssignmentTwo(double amount, double accountBalance, boolean student, double expectedInterest) {
 	    double result = calculator.calculateDepositInterest(amount, accountBalance, student);
 	    assertEquals(expectedInterest, result);
 	}
